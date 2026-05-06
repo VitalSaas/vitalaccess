@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class InstallVitalAccessCommand extends Command
 {
-    protected $signature = 'vitalaccess:install
-                           {--filament : Install Filament resources and configure panel}
-                           {--seed : Run seeders and create admin user}
-                           {--force : Force overwrite existing files}';
+    protected $signature = 'vitalaccess:install {--filament : Install Filament resources and configure panel} {--seed : Run seeders and create admin user} {--force : Force overwrite existing files}';
 
     protected $description = 'Install VitalAccess RBAC system - Plug and Play setup';
 
