@@ -11,15 +11,15 @@ use VitalSaaS\VitalAccess\Models\AccessPermission;
 
 class AccessPermissionResource extends Resource
 {
-    protected static ?string $model = AccessPermission::class;
+    protected static string|null $model = AccessPermission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-key';
+    protected static string|null $navigationIcon = 'heroicon-o-key';
 
-    protected static ?string $navigationLabel = 'Permisos';
+    protected static string|null $navigationLabel = 'Permisos';
 
     protected static string|null $navigationGroup = 'VitalAccess';
 
-    protected static ?int $navigationSort = 2;
+    protected static int|null $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

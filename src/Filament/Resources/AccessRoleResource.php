@@ -11,15 +11,15 @@ use VitalSaaS\VitalAccess\Models\AccessRole;
 
 class AccessRoleResource extends Resource
 {
-    protected static ?string $model = AccessRole::class;
+    protected static string|null $model = AccessRole::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+    protected static string|null $navigationIcon = 'heroicon-o-shield-check';
 
-    protected static ?string $navigationLabel = 'Roles';
+    protected static string|null $navigationLabel = 'Roles';
 
     protected static string|null $navigationGroup = 'VitalAccess';
 
-    protected static ?int $navigationSort = 1;
+    protected static int|null $navigationSort = 1;
 
     public static function form(Form $form): Form
     {

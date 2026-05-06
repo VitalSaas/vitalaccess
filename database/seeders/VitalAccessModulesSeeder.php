@@ -231,7 +231,7 @@ class VitalAccessModulesSeeder extends Seeder
                 'parent_id' => $admin->id,
                 'name' => 'Usuarios',
                 'icon' => 'heroicon-o-users',
-                'route' => 'admin.users.index',
+                'route' => null, // Will use Filament's auto-generated User resource
                 'type' => 'menu',
                 'sort_order' => 1,
                 'depth' => 1,
@@ -240,14 +240,14 @@ class VitalAccessModulesSeeder extends Seeder
             ]
         );
 
-        // Roles sub-module
+        // Roles sub-module (VitalAccess Filament Resource)
         AccessModule::firstOrCreate(
-            ['slug' => 'roles'],
+            ['slug' => 'access-roles'],
             [
                 'parent_id' => $admin->id,
                 'name' => 'Roles',
                 'icon' => 'heroicon-o-shield-check',
-                'route' => 'admin.roles.index',
+                'route' => null, // Auto-handled by VitalAccess Filament Resource
                 'type' => 'menu',
                 'sort_order' => 2,
                 'depth' => 1,
@@ -256,14 +256,14 @@ class VitalAccessModulesSeeder extends Seeder
             ]
         );
 
-        // Permissions sub-module
+        // Permissions sub-module (VitalAccess Filament Resource)
         AccessModule::firstOrCreate(
-            ['slug' => 'permissions'],
+            ['slug' => 'access-permissions'],
             [
                 'parent_id' => $admin->id,
                 'name' => 'Permisos',
                 'icon' => 'heroicon-o-key',
-                'route' => 'admin.permissions.index',
+                'route' => null, // Auto-handled by VitalAccess Filament Resource
                 'type' => 'menu',
                 'sort_order' => 3,
                 'depth' => 1,
@@ -272,14 +272,14 @@ class VitalAccessModulesSeeder extends Seeder
             ]
         );
 
-        // Modules sub-module
+        // Modules sub-module (VitalAccess Filament Resource)
         AccessModule::firstOrCreate(
-            ['slug' => 'modules'],
+            ['slug' => 'access-modules'],
             [
                 'parent_id' => $admin->id,
                 'name' => 'Módulos',
                 'icon' => 'heroicon-o-squares-2x2',
-                'route' => 'admin.modules.index',
+                'route' => null, // Auto-handled by VitalAccess Filament Resource
                 'type' => 'menu',
                 'sort_order' => 4,
                 'depth' => 1,

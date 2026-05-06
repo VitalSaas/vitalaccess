@@ -89,7 +89,7 @@ class InstallVitalAccessCommand extends Command
 
     protected function installFilamentResources(): void
     {
-        $this->info('🎨 Installing Filament resources...');
+        $this->info('🎨 Configuring Filament integration...');
 
         // Check if Filament is installed
         if (!class_exists('Filament\FilamentServiceProvider')) {
@@ -98,25 +98,21 @@ class InstallVitalAccessCommand extends Command
             return;
         }
 
-        // Publish Filament resources
-        Artisan::call('vendor:publish', [
-            '--tag' => 'vitalaccess-filament-resources',
-            '--force' => $this->option('force'),
-        ]);
+        // Note: Resources are auto-registered by the service provider for plug-and-play functionality
+        $this->line('   ✅ VitalAccess resources auto-registered with Filament');
+        $this->line('   🎛️ Admin resources for Roles, Permissions, and Modules available');
+        $this->line('   📊 Navigation group "VitalAccess" added to admin panel');
 
-        Artisan::call('vendor:publish', [
-            '--tag' => 'vitalaccess-filament-widgets',
-            '--force' => $this->option('force'),
-        ]);
+        // Only publish if user wants to customize (optional)
+        if ($this->option('force') || $this->confirm('Do you want to publish Filament resources for customization? (optional)', false)) {
+            Artisan::call('vendor:publish', [
+                '--tag' => 'vitalaccess-filament-resources-custom',
+                '--force' => $this->option('force'),
+            ]);
 
-        Artisan::call('vendor:publish', [
-            '--tag' => 'vitalaccess-filament-pages',
-            '--force' => $this->option('force'),
-        ]);
-
-        $this->line('   ✅ Filament resources published successfully');
-        $this->line('   📊 VitalAccess dashboard widgets added');
-        $this->line('   🎛️ Admin resources for Users, Roles, Permissions, and Modules available');
+            $this->line('   📝 Custom Filament resources published for editing');
+            $this->warn('   ⚠️  Remember to update namespaces if customizing published files');
+        }
     }
 
     protected function publishSeeders(): void

@@ -11,15 +11,15 @@ use VitalSaaS\VitalAccess\Models\AccessModule;
 
 class AccessModuleResource extends Resource
 {
-    protected static ?string $model = AccessModule::class;
+    protected static string|null $model = AccessModule::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+    protected static string|null $navigationIcon = 'heroicon-o-squares-2x2';
 
-    protected static ?string $navigationLabel = 'Módulos';
+    protected static string|null $navigationLabel = 'Módulos';
 
     protected static string|null $navigationGroup = 'VitalAccess';
 
-    protected static ?int $navigationSort = 3;
+    protected static int|null $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

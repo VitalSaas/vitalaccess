@@ -3,9 +3,14 @@
 namespace VitalSaaS\VitalAccess;
 
 use Illuminate\Support\ServiceProvider;
+use Filament\Facades\Filament;
+use Filament\Panel;
 use VitalSaaS\VitalAccess\Commands\InstallVitalAccessCommand;
 use VitalSaaS\VitalAccess\Commands\PublishFilamentResourcesCommand;
 use VitalSaaS\VitalAccess\Commands\VitalAccessMaintenanceCommand;
+use VitalSaaS\VitalAccess\Filament\Resources\AccessModuleResource;
+use VitalSaaS\VitalAccess\Filament\Resources\AccessPermissionResource;
+use VitalSaaS\VitalAccess\Filament\Resources\AccessRoleResource;
 
 class VitalAccessServiceProvider extends ServiceProvider
 {
@@ -18,9 +23,14 @@ class VitalAccessServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'vitalaccess');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         // Register middleware
         $this->registerMiddleware();
+
+        // Auto-register Filament resources
+        $this->registerFilamentResources();
 
         $this->publishes([
             __DIR__ . '/../config/vitalaccess.php' => config_path('vitalaccess.php'),
@@ -34,20 +44,20 @@ class VitalAccessServiceProvider extends ServiceProvider
             __DIR__ . '/../database/seeders' => database_path('seeders'),
         ], 'vitalaccess-seeders');
 
-        // Publish Filament Resources
+        // Optional: Publish Filament Resources (only if user wants to customize)
         $this->publishes([
             __DIR__ . '/Filament/Resources' => app_path('Filament/Resources'),
-        ], 'vitalaccess-filament-resources');
+        ], 'vitalaccess-filament-resources-custom');
 
-        // Publish Filament Widgets
+        // Optional: Publish Filament Widgets
         $this->publishes([
             __DIR__ . '/Filament/Widgets' => app_path('Filament/Widgets'),
-        ], 'vitalaccess-filament-widgets');
+        ], 'vitalaccess-filament-widgets-custom');
 
-        // Publish Filament Pages
+        // Optional: Publish Filament Pages
         $this->publishes([
             __DIR__ . '/Filament/Pages' => app_path('Filament/Pages'),
-        ], 'vitalaccess-filament-pages');
+        ], 'vitalaccess-filament-pages-custom');
 
         // Publish Models
         $this->publishes([
@@ -81,5 +91,30 @@ class VitalAccessServiceProvider extends ServiceProvider
         $router = $this->app['router'];
 
         $router->aliasMiddleware('vitalaccess', \VitalSaaS\VitalAccess\Middleware\VitalAccessMiddleware::class);
+    }
+
+    /**
+     * Auto-register Filament resources for plug-and-play functionality
+     */
+    protected function registerFilamentResources(): void
+    {
+        // Only register if Filament is available
+        if (class_exists(\Filament\Facades\Filament::class)) {
+            // Register resources automatically when the service provider boots
+            $this->app->booted(function () {
+                try {
+                    $panel = \Filament\Facades\Filament::getDefaultPanel();
+
+                    if ($panel) {
+                        $panel->discoverResources(
+                            in: __DIR__ . '/Filament/Resources',
+                            for: 'VitalSaaS\\VitalAccess\\Filament\\Resources'
+                        );
+                    }
+                } catch (\Exception $e) {
+                    // Silently fail if panel is not available yet
+                }
+            });
+        }
     }
 }
