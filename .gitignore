@@ -1,0 +1,47 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# IDEs and Editors
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Laravel
+/.env
+/.env.backup
+/.env.production
+
+# Testing
+/coverage/
+/.phpunit.result.cache
+.phpunit.cache
+
+# Build Files
+/build/
+/dist/
+
+# Logs
+*.log
+
+# Cache
+/.php-cs-fixer.cache
+
+# Composer
+/composer.lock
+
+# Package specific
+/.github/
+/tests/storage/
+/docs/build/
