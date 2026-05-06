@@ -20,9 +20,9 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
-            $table->index(['business_unit_type', 'business_unit_id']);
-            $table->index('user_id');
-            $table->unique(['user_id', 'business_unit_type', 'business_unit_id']);
+            $table->index(['business_unit_type', 'business_unit_id'], 'access_ubu_type_id_idx');
+            $table->index('user_id', 'access_ubu_user_id_idx');
+            $table->unique(['user_id', 'business_unit_type', 'business_unit_id'], 'access_ubu_unique_idx');
         });
     }
 
