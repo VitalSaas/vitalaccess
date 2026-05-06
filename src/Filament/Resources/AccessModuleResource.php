@@ -17,7 +17,7 @@ class AccessModuleResource extends Resource
 
     protected static ?string $navigationLabel = 'Módulos';
 
-    protected static ?string $navigationGroup = 'VitalAccess';
+    protected static string|null $navigationGroup = 'VitalAccess';
 
     protected static ?int $navigationSort = 3;
 

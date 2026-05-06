@@ -17,7 +17,7 @@ class AccessPermissionResource extends Resource
 
     protected static ?string $navigationLabel = 'Permisos';
 
-    protected static ?string $navigationGroup = 'VitalAccess';
+    protected static string|null $navigationGroup = 'VitalAccess';
 
     protected static ?int $navigationSort = 2;
 

@@ -17,7 +17,7 @@ class AccessRoleResource extends Resource
 
     protected static ?string $navigationLabel = 'Roles';
 
-    protected static ?string $navigationGroup = 'VitalAccess';
+    protected static string|null $navigationGroup = 'VitalAccess';
 
     protected static ?int $navigationSort = 1;
 
