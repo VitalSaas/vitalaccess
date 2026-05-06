@@ -353,3 +353,4 @@ PHP;
             $this->error('   ❌ Failed to create admin user: ' . $e->getMessage());
         }
     }
+}
