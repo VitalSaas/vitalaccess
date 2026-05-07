@@ -23,8 +23,8 @@ class VitalAccessServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'vitalaccess');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        // $this->loadRoutesFrom(__DIR__ . '/../routes/web.php'); // Comentado: VitalAccessController no existe
+        // $this->loadRoutesFrom(__DIR__ . '/../routes/api.php'); // Comentado: puede tener dependencias faltantes
 
         // Register middleware
         $this->registerMiddleware();
@@ -100,19 +100,14 @@ class VitalAccessServiceProvider extends ServiceProvider
     {
         // Only register if Filament is available
         if (class_exists(\Filament\Facades\Filament::class)) {
-            // Register resources automatically when the service provider boots
-            $this->app->booted(function () {
-                try {
-                    $panel = \Filament\Facades\Filament::getDefaultPanel();
-
-                    if ($panel) {
-                        $panel->discoverResources(
-                            in: __DIR__ . '/Filament/Resources',
-                            for: 'VitalSaaS\\VitalAccess\\Filament\\Resources'
-                        );
-                    }
-                } catch (\Exception $e) {
-                    // Silently fail if panel is not available yet
+            // Use a different approach - hook into panel registration event
+            $this->app->resolving(\Filament\Panel::class, function (\Filament\Panel $panel) {
+                // Only register for admin panel (or default panel)
+                if ($panel->getId() === 'admin' || $panel->isDefault()) {
+                    $panel->discoverResources(
+                        in: __DIR__ . '/Filament/Resources',
+                        for: 'VitalSaaS\\VitalAccess\\Filament\\Resources'
+                    );
                 }
             });
         }
