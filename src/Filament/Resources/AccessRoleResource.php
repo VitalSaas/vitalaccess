@@ -2,30 +2,37 @@
 
 namespace VitalSaaS\VitalAccess\Filament\Resources;
 
+use BackedEnum;
+use UnitEnum;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use VitalSaaS\VitalAccess\Models\AccessRole;
 
 class AccessRoleResource extends Resource
 {
-    protected static string|null $model = AccessRole::class;
+    protected static ?string $model = AccessRole::class;
 
-    protected static string|null $navigationIcon = 'heroicon-o-shield-check';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-shield-check';
 
     protected static string|null $navigationLabel = 'Roles';
 
-    protected static ?string $navigationGroup = 'VitalAccess';
+    protected static UnitEnum|string|null $navigationGroup = 'VitalAccess';
 
     protected static int|null $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Información del Rol')
+                Section::make('Información del Rol')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nombre')
@@ -48,7 +55,7 @@ class AccessRoleResource extends Resource
                             ->nullable(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Configuración')
+                Section::make('Configuración')
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
                             ->label('Activo')
@@ -64,7 +71,7 @@ class AccessRoleResource extends Resource
                             ->default(1),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Permisos')
+                Section::make('Permisos')
                     ->schema([
                         Forms\Components\CheckboxList::make('permissions')
                             ->relationship('permissions', 'name')
@@ -122,12 +129,12 @@ class AccessRoleResource extends Resource
                     ->label('Rol del Sistema'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

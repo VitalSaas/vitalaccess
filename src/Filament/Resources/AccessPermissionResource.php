@@ -2,30 +2,37 @@
 
 namespace VitalSaaS\VitalAccess\Filament\Resources;
 
+use BackedEnum;
+use UnitEnum;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use VitalSaaS\VitalAccess\Models\AccessPermission;
 
 class AccessPermissionResource extends Resource
 {
-    protected static string|null $model = AccessPermission::class;
+    protected static ?string $model = AccessPermission::class;
 
-    protected static string|null $navigationIcon = 'heroicon-o-key';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-key';
 
     protected static string|null $navigationLabel = 'Permisos';
 
-    protected static ?string $navigationGroup = 'VitalAccess';
+    protected static UnitEnum|string|null $navigationGroup = 'VitalAccess';
 
     protected static int|null $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Información del Permiso')
+                Section::make('Información del Permiso')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nombre')
@@ -49,14 +56,14 @@ class AccessPermissionResource extends Resource
                             ->maxLength(50),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Descripción')
+                Section::make('Descripción')
                     ->schema([
                         Forms\Components\Textarea::make('description')
                             ->label('Descripción')
                             ->maxLength(500),
                     ]),
 
-                Forms\Components\Section::make('Configuración')
+                Section::make('Configuración')
                     ->schema([
                         Forms\Components\Toggle::make('is_system')
                             ->label('Permiso del Sistema')
@@ -118,12 +125,12 @@ class AccessPermissionResource extends Resource
                     ->label('Permiso del Sistema'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('group');

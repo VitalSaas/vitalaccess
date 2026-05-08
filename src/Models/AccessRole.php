@@ -57,4 +57,9 @@ class AccessRole extends Model
     {
         return $this->belongsToMany(config('auth.providers.users.model'), 'access_user_roles', 'role_id', 'user_id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(AccessRoleCategory::class, 'category_id');
+    }
 }

@@ -2,30 +2,37 @@
 
 namespace VitalSaaS\VitalAccess\Filament\Resources;
 
+use BackedEnum;
+use UnitEnum;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use VitalSaaS\VitalAccess\Models\AccessModule;
 
 class AccessModuleResource extends Resource
 {
-    protected static string|null $model = AccessModule::class;
+    protected static ?string $model = AccessModule::class;
 
-    protected static string|null $navigationIcon = 'heroicon-o-squares-2x2';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static string|null $navigationLabel = 'Módulos';
 
-    protected static ?string $navigationGroup = 'VitalAccess';
+    protected static UnitEnum|string|null $navigationGroup = 'VitalAccess';
 
     protected static int|null $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Forms\Components\Section::make('Información del Módulo')
+                Section::make('Información del Módulo')
                     ->schema([
                         Forms\Components\Select::make('parent_id')
                             ->label('Módulo Padre')
@@ -50,7 +57,7 @@ class AccessModuleResource extends Resource
                             ->placeholder('heroicon-o-home'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Configuración de Navegación')
+                Section::make('Configuración de Navegación')
                     ->schema([
                         Forms\Components\TextInput::make('route')
                             ->label('Ruta')
@@ -77,7 +84,7 @@ class AccessModuleResource extends Resource
                             ->default(0),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Estado y Visibilidad')
+                Section::make('Estado y Visibilidad')
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
                             ->label('Activo')
@@ -174,12 +181,12 @@ class AccessModuleResource extends Resource
                     ->label('Visible'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('sort_order')

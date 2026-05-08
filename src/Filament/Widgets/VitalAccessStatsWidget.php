@@ -10,7 +10,7 @@ use VitalSaaS\VitalAccess\Models\AccessModule;
 
 class VitalAccessStatsWidget extends BaseWidget
 {
-    protected static ?string $pollingInterval = '15s';
+    protected ?string $pollingInterval = '15s';
 
     protected function getStats(): array
     {
